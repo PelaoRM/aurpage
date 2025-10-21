@@ -509,26 +509,49 @@ class _ServicesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isWide = MediaQuery.of(context).size.width >= 900;
-    final cards = const [
-      _ServiceCard(
+    final cards = <Widget>[
+      const _ServiceCard(
         icon: Icons.web_rounded,
         title: 'Sitios y Web Apps',
         desc: 'Landing pages, paneles administrativos y apps progresivas (PWA).',
         transparent: true,
       ),
-      _ServiceCard(
+      const _ServiceCard(
         icon: Icons.phone_android_rounded,
         title: 'Apps móviles',
         desc: 'Publicación en iOS y Android con una base de código.',
         transparent: true,
       ),
-      _ServiceCard(
+      const _ServiceCard(
         icon: Icons.integration_instructions_rounded,
         title: 'Integraciones',
         desc: 'APIs, autenticación, pagos y automatizaciones a medida.',
         transparent: true,
       ),
     ];
+
+    final Widget cardsLayout;
+    if (isWide) {
+      cardsLayout = GridView.count(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: 3,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 1.2,
+        children: cards,
+      );
+    } else {
+      cardsLayout = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < cards.length; i++) ...[
+            cards[i],
+            if (i != cards.length - 1) const SizedBox(height: 16),
+          ],
+        ],
+      );
+    }
 
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -543,15 +566,7 @@ class _ServicesSection extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white70),
         ),
         const SizedBox(height: 24),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: isWide ? 3 : 1,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: isWide ? 1.2 : 2.6,
-          children: cards,
-        )
+        cardsLayout,
       ],
     );
     return content;
@@ -1060,13 +1075,37 @@ class _Footer extends StatelessWidget {
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1100),
-          child: Row(
-            children: [
-              const _Brand(),
-              const Spacer(),
-              Text('© $year Aurora Software — Todos los derechos reservados',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant)),
-            ],
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final copyright = Text(
+                '© $year Aurora Software — Todos los derechos reservados',
+                textAlign: constraints.maxWidth < 600 ? TextAlign.center : TextAlign.right,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: scheme.onSurfaceVariant),
+              );
+
+              if (constraints.maxWidth < 600) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const _Brand(),
+                    const SizedBox(height: 16),
+                    copyright,
+                  ],
+                );
+              }
+
+              return Row(
+                children: [
+                  const _Brand(),
+                  const Spacer(),
+                  Flexible(child: copyright),
+                ],
+              );
+            },
           ),
         ),
       ),
