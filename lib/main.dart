@@ -1140,7 +1140,7 @@ class MedLogPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Uri webUrl = Uri.parse('https://medlog.app'); // TODO: reemplazar por URL real
+    final Uri webUrl = Uri.parse('https://medlogapp-c3p0.web.app');
     final Uri androidUrl = Uri.parse('https://play.google.com/store/apps/details?id=com.example.medlog'); // TODO
     final Uri iosUrl = Uri.parse('https://apps.apple.com/app/id0000000000'); // TODO
 
