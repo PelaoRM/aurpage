@@ -45,6 +45,11 @@ class _HomePageState extends State<HomePage> {
   final _keySobre = GlobalKey();
   final _keyContacto = GlobalKey();
   final _keyMedLog = GlobalKey();
+  final _keyApps = GlobalKey();
+  final _keyAppUsc = GlobalKey();
+  final _keyAppMalvi = GlobalKey();
+  final _keyAppUscl = GlobalKey();
+  final _keyAppPhoto = GlobalKey();
 
   void _scrollTo(GlobalKey key) {
     final ctx = key.currentContext;
@@ -110,6 +115,34 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     _DrawerItem(
+                      label: 'USC y algo más',
+                      onTap: () {
+                        Navigator.pop(context);
+                        _scrollTo(_keyAppUsc);
+                      },
+                    ),
+                    _DrawerItem(
+                      label: 'MalviFitness',
+                      onTap: () {
+                        Navigator.pop(context);
+                        _scrollTo(_keyAppMalvi);
+                      },
+                    ),
+                    _DrawerItem(
+                      label: 'USCL Book App',
+                      onTap: () {
+                        Navigator.pop(context);
+                        _scrollTo(_keyAppUscl);
+                      },
+                    ),
+                    _DrawerItem(
+                      label: 'PhotoCash',
+                      onTap: () {
+                        Navigator.pop(context);
+                        _scrollTo(_keyAppPhoto);
+                      },
+                    ),
+                    _DrawerItem(
                       label: 'Contacto',
                       onTap: () {
                         Navigator.pop(context);
@@ -159,6 +192,22 @@ class _HomePageState extends State<HomePage> {
                     fontFamily: 'AmericanTypewriter',
                     fontWeight: FontWeight.w600,
                   ),
+                ),
+                _NavButton(
+                  text: 'USC y algo más',
+                  onTap: () => _scrollTo(_keyAppUsc),
+                ),
+                _NavButton(
+                  text: 'MalviFitness',
+                  onTap: () => _scrollTo(_keyAppMalvi),
+                ),
+                _NavButton(
+                  text: 'USCL Book App',
+                  onTap: () => _scrollTo(_keyAppUscl),
+                ),
+                _NavButton(
+                  text: 'PhotoCash',
+                  onTap: () => _scrollTo(_keyAppPhoto),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -210,6 +259,21 @@ class _HomePageState extends State<HomePage> {
               key: _keyMedLog,
               padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 24),
               child: const _MedLogSection(),
+            ),
+
+            _Section(
+              key: _keyApps,
+              padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 24),
+              color: Color.alphaBlend(
+                AppColors.lavender.withOpacity(0.14),
+                Theme.of(context).colorScheme.surface,
+              ),
+              child: _AppsShowcaseSection(
+                uscKey: _keyAppUsc,
+                malviKey: _keyAppMalvi,
+                usclKey: _keyAppUscl,
+                photoKey: _keyAppPhoto,
+              ),
             ),
 
             // Contacto
@@ -1140,7 +1204,7 @@ class MedLogPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Uri webUrl = Uri.parse('https://medlogapp-c3p0.web.app');
+    final Uri webUrl = Uri.parse('https://medlogapp.com');
     final Uri androidUrl = Uri.parse('https://play.google.com/store/apps/details?id=com.example.medlog'); // TODO
     final Uri iosUrl = Uri.parse('https://apps.apple.com/app/id0000000000'); // TODO
 
@@ -1331,6 +1395,348 @@ class _StoreBadge extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           child: SvgPicture.asset(asset, height: height),
         ),
+      ),
+    );
+  }
+}
+
+class _AppsShowcaseSection extends StatelessWidget {
+  final GlobalKey uscKey;
+  final GlobalKey malviKey;
+  final GlobalKey usclKey;
+  final GlobalKey photoKey;
+
+  const _AppsShowcaseSection({
+    required this.uscKey,
+    required this.malviKey,
+    required this.usclKey,
+    required this.photoKey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final features = [
+      _AppFeatureData(
+        title: 'USC y algo más',
+        description: 'Aplicación para los amantes del ultrasonido clínico.',
+        highlights: const [
+          'Aprendizaje guiado por expertos.',
+          'Repositorio de material original.',
+          'Feedback directo de urgenciólogos especialistas en USC.',
+          'Y mucho más para seguir creciendo en comunidad.',
+        ],
+        icon: Icons.monitor_heart_rounded,
+        accentColor: AppColors.aqua,
+        assetImage: 'assets/USC.png',
+        sectionKey: uscKey,
+      ),
+      _AppFeatureData(
+        title: 'MalviFitness',
+        description:
+            '¿Quieres estar en forma pero no sabes cómo empezar o tienes una vida ajetreada? Creamos un plan fitness hecho a tu medida, con material exclusivo y rutinas pensadas para ti.',
+        highlights: const [
+          'Consejería personalizada de deporte y estilo de vida.',
+          'Rutinas y contenido exclusivos para cada objetivo.',
+          'Consultas con personal trainers, nutriólogos, kinesiólogos y médicos.',
+        ],
+        icon: Icons.fitness_center_rounded,
+        accentColor: AppColors.peach,
+        assetImage: 'assets/malvi.png',
+        textBackgroundColor: AppColors.peach.withOpacity(0.55),
+        sectionKey: malviKey,
+      ),
+      _AppFeatureData(
+        title: 'USCL Book App',
+        description:
+            'Libro de ultrasonido clínico convertido en experiencia interactiva con imágenes, videos y rutas guiadas. Pensado para reforzar lo básico y dominar escenarios avanzados directamente desde tu dispositivo, con nuevas cápsulas clínicas y retos semanales que mantienen el aprendizaje activo.',
+        highlights: const [
+          'Posibilidad de recibir feedback on spot por expertos en ultrasonido clínico para ajustar cada sesión.',
+          'Ecocardiografía básica y avanzada explicada paso a paso con ejemplos visuales.',
+          'Protocolos de ultrasonido en PCR (USC en paro cardiorrespiratorio) para decisiones inmediatas.',
+          'Cobertura de procedimientos guiados por USC con listas de verificación listas para usar.',
+          'Módulos dedicados a USC pulmonar para reconocer patrones respiratorios críticos.',
+          'Algoritmos prácticos para evaluar al paciente en shock utilizando ultrasonido en el punto de atención.',
+          'Galerías multimedia con casos clínicos comentados, imágenes clave, clips de práctica y quizzes rápidos.',
+          'Secciones comparativas para correlacionar hallazgos entre pacientes y patologías frecuentes.',
+        ],
+        icon: Icons.menu_book_rounded,
+        accentColor: AppColors.lavender,
+        assetImage: 'assets/book.png',
+        imageAlignment: const Alignment(0, 0.6),
+        textBackgroundColor: Color(0xFFDAD8FF),
+        sectionKey: usclKey,
+      ),
+      _AppFeatureData(
+        title: 'PhotoCash',
+        description:
+            'App para quienes aman la fotografía: camina por la ciudad, captura momentos georreferenciados y descubre lo que otros ven en el mismo lugar.',
+        highlights: const [
+          'Explora fotografías de la comunidad en cada punto del mapa.',
+          'Comparte tus capturas y crea nuevas historias en cada recorrido.',
+          'Juega a atrapar fotos sin necesidad de ser profesional. ¡PhotoCash them all!',
+        ],
+        icon: Icons.camera_alt_rounded,
+        accentColor: AppColors.sand,
+        assetImage: 'assets/photocash.png',
+        sectionKey: photoKey,
+      ),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          'Más soluciones digitales',
+          style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'Proyectos creados junto a especialistas para llevar nuevas experiencias a cada disciplina.',
+          style: theme.textTheme.titleMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        ),
+        const SizedBox(height: 40),
+        for (var i = 0; i < features.length; i++) ...[
+          _AppFeatureBlock(
+            data: features[i],
+            mediaOnLeft: i.isEven,
+            sectionKey: features[i].sectionKey,
+          ),
+          if (i != features.length - 1) const SizedBox(height: 48),
+        ],
+      ],
+    );
+  }
+}
+
+class _AppFeatureData {
+  final String title;
+  final String description;
+  final List<String> highlights;
+  final IconData icon;
+  final Color accentColor;
+  final String? assetImage;
+  final Color? textBackgroundColor;
+  final AlignmentGeometry? imageAlignment;
+  final Key? sectionKey;
+
+  const _AppFeatureData({
+    required this.title,
+    required this.description,
+    required this.highlights,
+    required this.icon,
+    required this.accentColor,
+    this.assetImage,
+    this.textBackgroundColor,
+    this.imageAlignment,
+    this.sectionKey,
+  });
+}
+
+class _AppFeatureBlock extends StatelessWidget {
+  final _AppFeatureData data;
+  final bool mediaOnLeft;
+  final Key? sectionKey;
+
+  const _AppFeatureBlock({required this.data, required this.mediaOnLeft, this.sectionKey});
+
+  @override
+  Widget build(BuildContext context) {
+    final isWide = MediaQuery.of(context).size.width >= 900;
+
+    Widget content;
+    if (isWide) {
+      final media = _FeatureMedia(data: data, expandVertically: true);
+      final description = _FeatureDescription(data: data);
+
+      content = IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (mediaOnLeft)
+              Expanded(
+                flex: 3,
+                child: media,
+              ),
+            if (mediaOnLeft) const SizedBox(width: 36),
+            Expanded(
+              flex: 4,
+              child: description,
+            ),
+            if (!mediaOnLeft) const SizedBox(width: 36),
+            if (!mediaOnLeft)
+              Expanded(
+                flex: 3,
+                child: media,
+              ),
+          ],
+        ),
+      );
+    } else {
+      final media = _FeatureMedia(data: data, expandVertically: false);
+      final description = _FeatureDescription(data: data);
+
+      content = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (mediaOnLeft) media else description,
+          const SizedBox(height: 24),
+          if (mediaOnLeft) description else media,
+        ],
+      );
+    }
+
+    return KeyedSubtree(
+      key: sectionKey,
+      child: content,
+    );
+  }
+}
+
+class _FeatureMedia extends StatelessWidget {
+  final _AppFeatureData data;
+  final bool expandVertically;
+
+  const _FeatureMedia({required this.data, required this.expandVertically});
+
+  @override
+  Widget build(BuildContext context) {
+    final borderRadius = BorderRadius.circular(24);
+
+    Widget mediaContent;
+    if (data.assetImage != null) {
+      mediaContent = Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            data.assetImage!,
+            fit: BoxFit.cover,
+            alignment: data.imageAlignment ?? Alignment.center,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.black.withOpacity(0.35),
+                  Colors.black.withOpacity(0.1),
+                ],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      mediaContent = Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              data.accentColor.withOpacity(0.9),
+              data.accentColor.withOpacity(0.45),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Icon(
+            data.icon,
+            size: 96,
+            color: Colors.white.withOpacity(0.9),
+          ),
+        ),
+      );
+    }
+
+    if (expandVertically) {
+      return ClipRRect(
+        borderRadius: borderRadius,
+        child: mediaContent,
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: AspectRatio(
+        aspectRatio: 16 / 9,
+        child: mediaContent,
+      ),
+    );
+  }
+}
+
+class _FeatureDescription extends StatelessWidget {
+  final _AppFeatureData data;
+
+  const _FeatureDescription({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final background = data.textBackgroundColor ??
+        Color.alphaBlend(data.accentColor.withOpacity(0.18), theme.colorScheme.surface);
+
+    return _CardSurface(
+      bgColor: background,
+      child: Padding(
+        padding: const EdgeInsets.all(28.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(data.icon, size: 36, color: data.accentColor),
+            const SizedBox(height: 12),
+            Text(
+              data.title,
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontFamily: 'AmericanTypewriter',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              data.description,
+              style: theme.textTheme.bodyMedium,
+            ),
+            if (data.highlights.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              for (final item in data.highlights) _BulletText(text: item, color: data.accentColor),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BulletText extends StatelessWidget {
+  final String text;
+  final Color color;
+
+  const _BulletText({required this.text, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 6),
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        ],
       ),
     );
   }

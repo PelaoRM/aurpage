@@ -64,6 +64,10 @@ flutter:
   assets:
     - assets/servicios_bg.png
     - assets/herobackgroun.png
+    - assets/malvi.png
+    - assets/USC.png
+    - assets/photocash.png
+    - assets/book.png
     - assets/logos/
     - assets/fonts/
     - assets/medlog/
